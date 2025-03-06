@@ -19,7 +19,7 @@ services:
       - APP_DEBUG=true
       - APP_KEY=${APP_KEY}
     command: >
-      sh -c "php artisan migrate && php artisan key:generate && php artisan jwt:secret && php-fpm"
+      sh -c "cp .env.example .env && php artisan migrate && php artisan key:generate && php artisan jwt:secret && php-fpm"
 
   webserver:
     image: nginx:alpine

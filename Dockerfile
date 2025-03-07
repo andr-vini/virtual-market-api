@@ -16,7 +16,7 @@ WORKDIR /var/www
 COPY . .
 
 # Instalar dependências do Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install
 
 # Permissões para storage e bootstrap
 RUN chmod -R 777 storage bootstrap/cache

@@ -28,11 +28,11 @@
                                 "properties": {
                                     "email": {
                                         "type": "string",
-                                        "example": "usuario@email.com"
+                                        "example": "test1@example.com"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "senha123"
+                                        "example": "teste"
                                     }
                                 },
                                 "type": "object"
@@ -87,12 +87,97 @@
                     }
                 }
             }
+        },
+        "/user/me": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Retorna as informações do usuário",
+                "operationId": "4fed1465ff43232bbe1393f6391e39ef",
+                "responses": {
+                    "200": {
+                        "description": "Informações do usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Test User"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "test1@example.com"
+                                        },
+                                        "email_verified_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-03-10T21:43:41.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-03-10T21:43:42.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-03-10T21:43:42.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Encerra a sessão",
+                "operationId": "68a6108af04af5e3bc1ea68a6c6f1299",
+                "responses": {
+                    "200": {
+                        "description": "Encerra a sessão",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "success",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Saiu com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Autenticação",
             "description": "Autenticação"
+        },
+        {
+            "name": "Usuário",
+            "description": "Usuário"
         }
     ]
 }

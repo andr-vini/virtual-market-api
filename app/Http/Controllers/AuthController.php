@@ -16,8 +16,8 @@ class AuthController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "password"} ,
-     *             @OA\Property(property="email", type="string", example="usuario@email.com"),
-     *             @OA\Property(property="password", type="string", example="senha123")
+     *             @OA\Property(property="email", type="string", example="test1@example.com"),
+     *             @OA\Property(property="password", type="string", example="teste")
      *         )
      *     ),
      *     @OA\Response(
@@ -43,10 +43,10 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (! $token = Auth::attempt($credentials)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Usuário ou senha incorretos'
+                'message' => 'Credenciais Inválidas'
             ], 401);
         }
 
@@ -54,23 +54,47 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Get(
+     *     path="/user/me",
+     *     summary="Retorna as informações do usuário",
+     *     tags={"Usuário"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Informações do usuário",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example="1"),
+     *             @OA\Property(property="name", type="string", example="Test User"),
+     *             @OA\Property(property="email", type="string", example="test1@example.com"),
+     *             @OA\Property(property="email_verified_at", type="datetime", example="2025-03-10T21:43:41.000000Z"),
+     *             @OA\Property(property="created_at", type="datetime", example="2025-03-10T21:43:42.000000Z"),
+     *             @OA\Property(property="updated_at", type="datetime", example="2025-03-10T21:43:42.000000Z"),
+     *         )
+     *     )
+     * )
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(Auth::user());
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/logout",
+     *     summary="Encerra a sessão",
+     *     tags={"Autenticação"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Encerra a sessão",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="success", example="success"),
+     *             @OA\Property(property="message", type="string", example="Saiu com sucesso"),
+     *         )
+     *     ),
+     * )
      */
     public function logout()
     {
-        auth()->logout();
+        Auth::logout();
 
         return response()->json([
             'status' => 'success',
@@ -85,7 +109,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(Auth::refresh());
     }
 
     /**
@@ -100,7 +124,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => Auth::factory()->getTTL() * 60
         ]);
     }
 }
